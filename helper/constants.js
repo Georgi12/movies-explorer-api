@@ -8,4 +8,6 @@ const errorMessages = {
 
 };
 
-module.exports = { errorMessages };
+const mongoServer = 'mongodb://localhost:27017/moviedb';
+
+module.exports = { errorMessages, mongoServer };
