@@ -1,5 +1,6 @@
 const Movie = require('../models/movie');
-const { NotFoundError } = require('../errors/errorClases');
+const { errorMessages } = require('../helper/constants');
+const { UserResponseError } = require('../errors/errorClases');
 
 const getMovies = (req, res, next) => {
   Movie.find({ owner: req.user._id })
@@ -15,7 +16,7 @@ const createMovie = (req, res, next) => {
 
 const deleteMovie = (req, res, next) => {
   Movie.findOne({ owner: req.user._id, _id: req.body.movieId })
-    .orFail(() => new NotFoundError('Фильм не найден либо вам не принадлежит'))
+    .orFail(() => new UserResponseError(errorMessages.notFoundMovie))
     .then((movie) => {
       movie.remove();
       return res.json({ message: 'Фильм удален' });

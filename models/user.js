@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const { errorMessages } = require('../helper/constants');
 const { AuthError } = require('../errors/errorClases');
 
 mongoose.set('toObject', { useProjection: false });
@@ -33,12 +34,12 @@ userModel.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new AuthError('Неправильные почта или пароль'));
+        return Promise.reject(new AuthError(errorMessages.authUserError));
       }
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new AuthError('Неправильные почта или пароль'));
+            return Promise.reject(new AuthError(errorMessages.authUserError));
           }
 
           return user;

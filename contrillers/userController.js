@@ -2,11 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const jwtPassword = require('../helper/jwtSetter');
+const { errorMessages } = require('../helper/constants');
 const { NotFoundError, DuplicateError } = require('../errors/errorClases');
 
 const getUserMe = (req, res, next) => {
   User.findById(req.params.id)
-    .orFail(() => new NotFoundError('Пользоваель с таким id не найден'))
+    .orFail(() => new NotFoundError(errorMessages.notFoundUser))
     .then((user) => res.send({ data: user }))
     .catch(next);
 };
@@ -17,7 +18,7 @@ const updateUser = (req, res, next) => {
     req.body,
     { new: true, runValidators: true },
   )
-    .orFail(() => new NotFoundError('Пользоваель с таким id не найден'))
+    .orFail(() => new NotFoundError(errorMessages.notFoundUser))
     .then((user) => res.send({ data: user }))
     .catch(next);
 };
@@ -33,7 +34,7 @@ const createUser = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        return Promise.reject(new DuplicateError('Аккаунт с таким email уже существует'));
+        return Promise.reject(new DuplicateError(errorMessages.duplicateError));
       }
       return err;
     })
