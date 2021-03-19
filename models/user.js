@@ -29,19 +29,21 @@ const userModel = new mongoose.Schema({
   },
 });
 
-userModel.statics.findUserByCredentials = (email, password) => this.findOne({ email }).select('+password')
-  .then((user) => {
-    if (!user) {
-      return Promise.reject(new AuthError('Неправильные почта или пароль'));
-    }
-    return bcrypt.compare(password, user.password)
-      .then((matched) => {
-        if (!matched) {
-          return Promise.reject(new AuthError('Неправильные почта или пароль'));
-        }
+userModel.statics.findUserByCredentials = function (email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new AuthError('Неправильные почта или пароль'));
+      }
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new AuthError('Неправильные почта или пароль'));
+          }
 
-        return user;
-      });
-  });
+          return user;
+        });
+    });
+};
 
 module.exports = mongoose.model('user', userModel);
