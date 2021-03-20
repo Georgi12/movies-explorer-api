@@ -21,11 +21,11 @@ mongoose.connect(MONGO_URL, {
 });
 app.use(helmet());
 app.disable('x-powered-by');
-app.use(limiter);
 app.use('*', cors(options));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
+app.use(limiter);
 app.use('/', router);
 app.use(errorLogger);
 app.use(errors());

@@ -13,12 +13,12 @@ const createMovieCheck = celebrate({
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().uri().required(),
-    movieId: Joi.objectId().required(),
+    movieId: Joi.number().required(),
   }),
 });
 
 const deleteMovieCheck = celebrate({
-  body: Joi.object().keys({
+  params: Joi.object().keys({
     movieId: Joi.objectId().required(),
   }),
 });

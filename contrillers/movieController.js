@@ -15,7 +15,7 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  Movie.findOne({ owner: req.user._id, _id: req.body.movieId })
+  Movie.findOne({ owner: req.user._id, _id: req.params.movieId })
     .orFail(() => new UserResponseError(errorMessages.notFoundMovie))
     .then((movie) => {
       movie.remove();
