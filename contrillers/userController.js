@@ -6,7 +6,7 @@ const { errorMessages } = require('../helper/constants');
 const { NotFoundError, DuplicateError } = require('../errors/errorClases');
 
 const getUserMe = (req, res, next) => {
-  User.findById(req.params.id)
+  User.findById(req.user._id)
     .orFail(() => new NotFoundError(errorMessages.notFoundUser))
     .then((user) => res.send({ data: user }))
     .catch(next);
