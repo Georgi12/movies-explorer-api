@@ -1,8 +1,8 @@
 const options = {
   origin: [
     'http://localhost:8000',
-    'https://api.findmovie.students.nomoredomains.icu',
-    'http://api.findmovie.students.nomoredomains.icu',
+    'https://api.mymoviesfinder.students.nomoredomains.icu',
+    'http://api.mymoviesfinder.students.nomoredomains.icu',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
